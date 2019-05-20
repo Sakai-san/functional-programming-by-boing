@@ -7,15 +7,145 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="css/normalize.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
+    <!-- link href="css/normalize.css" rel="stylesheet" / -->
+    <!-- link href="css/style.css" rel="stylesheet" / -->
+    <style>
+      * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: calc(100% - 10px);
+        width: calc(100% - 4px);
+      }
+
+      .red-border {
+        border: 1px solid red;
+      }
+
+      body {
+        display: flex;
+      }
+
+      body > div {
+        flex: 1;
+        border: 1px solid green;
+      }
+
+      ul {
+        list-style: none;
+      }
+
+      li {
+        border: 1px solid orange;
+        padding: 20px;
+      }
+
+      body > div:nth-child(2) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
   </head>
 
   <body>
+    <div id="col1"></div>
+    <div id="col2"></div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+      const avg = grades =>
+        grades.length === 0
+          ? grades.length
+          : grades.reduce((acc, item) => acc + item, 0) / grades.length;
+
+      const students = [
+        {
+          id: 1000,
+          first: "thomas",
+          last: "Rubattel",
+          grades: [4, 2, 6, 6],
+          threshold: 4
+        },
+        {
+          id: 1001,
+          first: "simon",
+          last: "Mckenzie",
+          grades: [3.5, 4.5, 3.5],
+          threshold: 4.5
+        },
+        {
+          id: 1002,
+          first: "liam",
+          last: "Desmontet",
+          grades: [3, 5, 5.5, 4.5],
+          threshold: 4.2
+        },
+        {
+          id: 1003,
+          first: "pascaline",
+          last: "Fassnacht",
+          grades: [2, 2.5, 3.5],
+          threshold: 4.4
+        }
+      ];
+
+      const hasPassed = threshold => avg => avg >= threshold;
+
+      const selector = student => {};
+
+      const renderStudents = students =>
+        students.map(student =>
+          $(`
+              <li data-student-id=${student.id}>
+                <div>${student.first}</div>
+                <div>${student.last}</div>
+              </li>`)
+        );
+
+      const renderDetailStudent = student => {
+        const passed = hasPassed(student.threshold); // partial application
+        return $(`
+              <div>
+                <div>First name : ${student.first}</div>
+                <div>Last name : ${student.last}</div>
+                <div>GPA :  ${avg(student.grades)}</div>
+                <div>Passed : ${passed(avg(student.grades)).toString()}</div> 
+              </div>`);
+      };
+
+      const decorator = handler => e => {
+        e.stopPropagation();
+        handler(e);
+      };
+
+      const onClickHandler = e => {
+        var element = $(e.target).closest("li")[0];
+        var studentId = $(element).attr("data-student-id");
+
+        $("#col2")
+          .empty()
+          .append(
+            renderDetailStudent(
+              students.find(
+                student =>
+                  student.id === parseInt($(element).attr("data-student-id"))
+              )
+            )
+          );
+      };
+
       $(function() {
-        console.log("thomas");
+        $("<ul />")
+          .on("click", decorator(onClickHandler))
+          .append(renderStudents(students))
+          .appendTo("#col1");
       });
     </script>
   </body>
