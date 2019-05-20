@@ -98,7 +98,9 @@
 
       const hasPassed = threshold => avg => avg >= threshold;
 
-      const selector = student => {};
+      const getStudent = data => criterium => {
+        const map = Map(data);
+      };
 
       const renderStudents = students =>
         students.map(student =>
