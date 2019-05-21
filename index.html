@@ -88,17 +88,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-      const avg = grades =>
-        grades.length === 0
-          ? grades.length
-          : grades.reduce((acc, item) => acc + item, 0) / grades.length;
-
-      const avgs = arrayOfAvgs =>
-        arrayOfAvgs.length === 0
-          ? 0
-          : arrayOfAvgs.reduce((acc, [item]) => acc + item, 0) /
-            arrayOfAvgs.length;
-
       const getStudentsFakeApi = () =>
         new Promise(resolve =>
           resolve([
@@ -106,101 +95,89 @@
               id: 1000,
               first: "thomas",
               last: "Rubattel",
-              grades: [4, 2, 6, 6],
-              threshold: 4
+              grades: [4, 2, 6, 6]
             },
             {
               id: 1001,
               first: "simon",
               last: "Mckenzie",
-              grades: [3.5, 4.5, 3.5],
-              threshold: 4.5
+              grades: [3.5, 4.5, 3.5]
             },
             {
               id: 1002,
               first: "liam",
               last: "Desmontet",
-              grades: [3, 5, 5.5, 4.5],
-              threshold: 4.2
+              grades: [3, 5, 5.5, 4.5]
             },
             {
               id: 1003,
               first: "pascaline",
               last: "Fassnacht",
-              grades: [2, 2.5, 3.5],
-              threshold: 4.4
+              grades: [2, 2.5, 3.5]
             },
             {
               id: 1004,
               first: "Sigmund",
               last: "Dortman",
-              grades: [4, 3, 4.5, 2.5, 3.5],
-              threshold: 4.4
+              grades: [4, 3, 4.5, 2.5, 3.5]
             },
             {
               id: 1005,
               first: "Stefany",
               last: "Norberg",
-              grades: [4.5, 5, 4.5, 6, 5, 5, 6],
-              threshold: 5
+              grades: [4.5, 5, 4.5, 6, 5, 5, 6]
             }
           ])
         );
-
-      const aggregateGrades = students => {
-        // recursion with tail-recursive
-        const aggregateGradesAux = ([first, ...rest], grades) =>
-          first === undefined
-            ? grades
-            : aggregateGradesAux(rest, grades.concat(first.grades));
-
-        return aggregateGradesAux(students, []);
-      };
-
-      const checkPassed = threshold => avg => avg >= threshold;
-
-      const getStudent = (students, id) =>
-        students.find(student => student.id === id);
 
       const memoize = f => {
         const memo = new Map();
         return (...args) => {
           if (memo.get(args[1])) {
-            //            console.log("Cached : ", memo.get(args[1]));
             return memo.get(args[1]);
           } else {
             const result = f(args[0], args[1]);
             memo.set(args[1], result);
-            //            console.log("Computed : ", result);
             return result;
           }
         };
       };
+
+      const avg = grades =>
+        grades.length === 0
+          ? grades.length
+          : grades.reduce((acc, item) => acc + item, 0) / grades.length;
+
+      const getStudent = (students, id) =>
+        students.find(student => student.id === id);
+
       const getStudentMemo = memoize(getStudent);
+
+      const getStudentAvg = (students, id) => {
+        const student = getStudentMemo(students, id);
+        return avg(student.grades);
+      };
+
+      const getStudentAvgMemo = memoize(getStudentAvg);
 
       const renderStudents = students =>
         students.map(student =>
           $(`
-              <li data-student-id=${student.id}>
-                <div>${student.first}</div>
-                <div>${student.last}</div>
-              </li>`)
+            <li data-student-id=${student.id}>
+              <div>${student.first}</div>
+              <div>${student.last}</div>
+            </li>`)
         );
 
-      const renderDetailStudent = (student, schoolAvg) => {
-        const passed = checkPassed(student.threshold); // partial application
-        const hasPassed = passed(avg(student.grades)); // composition
+      const renderDetailStudent = (students, studentId) => {
+        const student = getStudentMemo(students, studentId);
+        const studentAvg = getStudentAvgMemo(students, studentId);
         return $(`
-              <div class="student-detail">
-                <div>First name : ${student.first}</div>
-                <div>Last name : ${student.last}</div>
-                <div>GPA :  ${student.avg}</div>
-                <div>School avergage :  ${schoolAvg}</div>
-
-                <div>Passed : <span class="${hasPassed ? "green" : "red"}">${
-          hasPassed ? "&#x2714;" : "&#x2717;"
-        }</span></div>
-              </div>`);
+            <div class="student-detail">
+              <div>First name : ${student.first}</div>
+              <div>Last name : ${student.last}</div>
+              <div>GPA : ${studentAvg}</div>
+            </div>`);
       };
 
       const decorator = handler => e => {
@@ -208,33 +185,22 @@
         handler(e);
       };
 
-      const onClickHandler = (studentsWithAvg, schoolAvg) => e => {
-        var listItem = $(e.target).closest("li");
+      const onClickHandler = students => e => {
+        const listItem = $(e.target).closest("li");
         if (listItem.length) {
-          var studentId = $(listItem).attr("data-student-id");
+          const studentId = $(listItem).attr("data-student-id");
           $("#col2")
             .empty()
-            .append(
-              renderDetailStudent(
-                getStudentMemo(studentsWithAvg, parseInt(studentId)),
-                schoolAvg
-              )
-            );
+            .append(renderDetailStudent(students, parseInt(studentId)));
         }
       };
 
       $(function() {
         getStudentsFakeApi().then(students => {
-          const studentsWithAvg = students.map(student => ({
-            ...student,
-            avg: avg(student.grades)
-          }));
-          const schoolAvg = avgs(studentsWithAvg.map(student => [student.avg]));
-
           $("<ul />")
-            .on("click", decorator(onClickHandler(studentsWithAvg, schoolAvg)))
-            .append(renderStudents(studentsWithAvg))
-            .appendTo("#col1");
+            .append(renderStudents(students))
+            .appendTo("#col1")
+            .on("click", decorator(onClickHandler(students)));
         });
       });
     </script>
