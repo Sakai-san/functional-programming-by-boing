@@ -158,12 +158,12 @@
         const memo = new Map();
         return (...args) => {
           if (memo.get(args[1])) {
-            console.log("Cached : ", memo.get(args[1]));
+            //            console.log("Cached : ", memo.get(args[1]));
             return memo.get(args[1]);
           } else {
             const result = f(args[0], args[1]);
             memo.set(args[1], result);
-            console.log("Computed : ", result);
+            //            console.log("Computed : ", result);
             return result;
           }
         };
@@ -200,6 +200,7 @@
 
       const onClickHandler = e => {
         var element = $(e.target).closest("li");
+        console.log("element", element);
         if (element.length) {
           var studentId = $(element).attr("data-student-id");
           $("#col2")
@@ -212,9 +213,10 @@
 
       $(function() {
         $("<ul />")
-          .on("click", decorator(onClickHandler))
           .append(renderStudents(students))
           .appendTo("#col1");
+
+        $(document).on("click", "ul", decorator(onClickHandler));
       });
     </script>
   </body>
