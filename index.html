@@ -61,6 +61,24 @@
       .green {
         color: palegreen;
       }
+
+      .student-detail {
+        color: blueviolet;
+        padding: 10px;
+        background-color: papayawhip;
+        animation: slide-up 0.4s ease;
+      }
+
+      @keyframes slide-up {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     </style>
   </head>
 
@@ -106,9 +124,9 @@
         },
         {
           id: 1004,
-          first: "pascaline",
-          last: "Fassnacht",
-          grades: [2, 2.5, 3.5],
+          first: "Sigmund",
+          last: "Dortman",
+          grades: [4, 3, 4.5, 2.5, 3.5],
           threshold: 4.4
         },
         {
@@ -165,7 +183,7 @@
         const passed = checkPassed(student.threshold); // partial application
         const hasPassed = passed(avg(student.grades)); // composition
         return $(`
-              <div>
+              <div class="student-detail">
                 <div>First name : ${student.first}</div>
                 <div>Last name : ${student.last}</div>
                 <div>GPA :  ${avg(student.grades)}</div>
@@ -181,19 +199,17 @@
       };
 
       const onClickHandler = e => {
-        var element = $(e.target).closest("li")[0];
-        var studentId = $(element).attr("data-student-id");
-
-        $("#col2")
-          .empty()
-          .append(
-            renderDetailStudent(
-              students.find(
-                student =>
-                  student.id === parseInt($(element).attr("data-student-id"))
+        var element = $(e.target).closest("li");
+        if (element.length) {
+          var studentId = $(element).attr("data-student-id");
+          $("#col2")
+            .empty()
+            .append(
+              renderDetailStudent(
+                students.find(student => student.id === parseInt(studentId))
               )
-            )
-          );
+            );
+        }
       };
 
       $(function() {
