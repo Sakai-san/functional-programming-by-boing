@@ -14,7 +14,6 @@ const memoize = f => {
 const sum = numbers => {
   const sumAux = ([first, ...rest], acc) =>
     first === undefined ? acc : sumAux(rest, first + acc);
-
   return sumAux(numbers, 0);
 };
 
@@ -51,11 +50,6 @@ const renderDetailStudent = (students, studentId) => {
         </div>`);
 };
 
-const decorator = handler => e => {
-  e.stopPropagation();
-  handler(e);
-};
-
 const onClickHandler = students => e => {
   const listItem = $(e.target).closest("li");
   if (listItem.length) {
@@ -66,11 +60,11 @@ const onClickHandler = students => e => {
   }
 };
 
-$(function() {
+$(() => {
   getStudentsFakeApi().then(students => {
     $("<ul />")
       .append(renderStudents(students))
       .appendTo("#col1")
-      .on("click", decorator(onClickHandler(students)));
+      .on("click", onClickHandler(students));
   });
 });
