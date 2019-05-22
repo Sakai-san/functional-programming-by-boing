@@ -93,25 +93,25 @@
           resolve([
             {
               id: 1000,
-              first: "thomas",
+              first: "Thomas",
               last: "Rubattel",
               grades: [4, 2, 6, 6]
             },
             {
               id: 1001,
-              first: "simon",
+              first: "Simon",
               last: "Mckenzie",
               grades: [3.5, 4.5, 3.5]
             },
             {
               id: 1002,
-              first: "liam",
+              first: "Liam",
               last: "Desmontet",
               grades: [3, 5, 5.5, 4.5]
             },
             {
               id: 1003,
-              first: "pascaline",
+              first: "Pascaline",
               last: "Fassnacht",
               grades: [2, 2.5, 3.5]
             },
@@ -126,83 +126,16 @@
               first: "Stefany",
               last: "Norberg",
               grades: [4.5, 5, 4.5, 6, 5, 5, 6]
+            },
+            {
+              id: 1006,
+              first: "Dragan",
+              last: "Civic",
+              grades: [3, 4, 4, 3, 5, 3]
             }
           ])
         );
-
-      const memoize = f => {
-        const memo = new Map();
-        return (...args) => {
-          if (memo.get(args[1])) {
-            return memo.get(args[1]);
-          } else {
-            const result = f(args[0], args[1]);
-            memo.set(args[1], result);
-            return result;
-          }
-        };
-      };
-
-      const avg = grades =>
-        grades.length === 0
-          ? grades.length
-          : grades.reduce((acc, item) => acc + item, 0) / grades.length;
-
-      const getStudent = (students, id) =>
-        students.find(student => student.id === id);
-
-      const getStudentMemo = memoize(getStudent);
-
-      const getStudentAvg = (students, id) => {
-        const student = getStudentMemo(students, id);
-        return avg(student.grades);
-      };
-
-      const getStudentAvgMemo = memoize(getStudentAvg);
-
-      const renderStudents = students =>
-        students.map(student =>
-          $(`
-            <li data-student-id=${student.id}>
-              <div>${student.first}</div>
-              <div>${student.last}</div>
-            </li>`)
-        );
-
-      const renderDetailStudent = (students, studentId) => {
-        const student = getStudentMemo(students, studentId);
-        const studentAvg = getStudentAvgMemo(students, studentId);
-        return $(`
-            <div class="student-detail">
-              <div>First name : ${student.first}</div>
-              <div>Last name : ${student.last}</div>
-              <div>GPA : ${studentAvg}</div>
-            </div>`);
-      };
-
-      const decorator = handler => e => {
-        e.stopPropagation();
-        handler(e);
-      };
-
-      const onClickHandler = students => e => {
-        const listItem = $(e.target).closest("li");
-        if (listItem.length) {
-          const studentId = $(listItem).attr("data-student-id");
-          $("#col2")
-            .empty()
-            .append(renderDetailStudent(students, parseInt(studentId)));
-        }
-      };
-
-      $(function() {
-        getStudentsFakeApi().then(students => {
-          $("<ul />")
-            .append(renderStudents(students))
-            .appendTo("#col1")
-            .on("click", decorator(onClickHandler(students)));
-        });
-      });
     </script>
+    <script src="./src/js/app.js"></script>
   </body>
 </html>
