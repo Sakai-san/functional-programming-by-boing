@@ -47,7 +47,7 @@ const renderDetailStudent = (students, studentId) => {
         <div class="student-detail">
           <div>First name : ${student.first}</div>
           <div>Last name : ${student.last}</div>
-          <div>GPA : ${studentAvg}</div>
+          <div>GPA : ${studentAvg.toFixed(1)}</div>
         </div>`);
 };
 
