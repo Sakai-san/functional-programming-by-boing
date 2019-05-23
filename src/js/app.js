@@ -36,7 +36,7 @@ const renderStudents = students =>
     $(`<li data-student-id=${student.id}>
           <div>${student.first}</div>
           <div>${student.last}</div>
-        </li>`)
+        </li>`).hover(onHoverHandler(students), () => $("#col2").empty())
   );
 
 const renderDetailStudent = (students, studentId) => {
@@ -50,13 +50,11 @@ const renderDetailStudent = (students, studentId) => {
         </div>`);
 };
 
-const onClickHandler = students => e => {
+const onHoverHandler = students => e => {
   const listItem = $(e.target).closest("li");
   if (listItem.length) {
     const studentId = $(listItem).attr("data-student-id");
-    $("#col2")
-      .empty()
-      .append(renderDetailStudent(students, parseInt(studentId)));
+    $("#col2").append(renderDetailStudent(students, parseInt(studentId)));
   }
 };
 
@@ -64,7 +62,6 @@ $(() => {
   getStudentsFakeApi().then(students => {
     $("<ul />")
       .append(renderStudents(students))
-      .appendTo("#col1")
-      .on("click", onClickHandler(students));
+      .appendTo("#col1");
   });
 });
