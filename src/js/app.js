@@ -17,11 +17,11 @@ const sum = (numbers) => {
     return sumAux(numbers, 0);
 };
 
-const avg = (grades) => (grades.length === 0 ? grades.length : sum(grades) / grades.length);
+const avg = (grades) => (grades.length === 0 ? 0 : sum(grades) / grades.length);
 
 const getStudent = (students, id) => students.find((student) => student.id === id);
 
-const getStudentAvg = (students, id) => avg(getStudentMemo(students, id), grades);
+const getStudentAvg = (students, id) => avg(getStudentMemo(students, id).grades);
 
 const getStudentAvgMemo = memoize(getStudentAvg);
 const getStudentMemo = memoize(getStudent);
