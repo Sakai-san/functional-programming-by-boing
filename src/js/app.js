@@ -38,7 +38,7 @@ const onHoverHandler = (students) => (e) => {
     const listItem = $(e.target).closest('li');
     if (listItem.length) {
         const studentId = $(listItem).attr('data-student-id');
-        $('#col2').append(renderDetailStudent(students, parseInt(studentId)));
+        $('#col2').append(renderDetailStudent(students, studentId));
     }
 };
 $(() => {
