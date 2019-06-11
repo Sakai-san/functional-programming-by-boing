@@ -1,49 +1,38 @@
 const memoize = (f) => {
     const memo = new Map();
-    return (...args) => {
-        if (memo.get(args[1])) {
-            return memo.get(args[1]);
+    return (arg) => {
+        if (memo.get(arg)) {
+            return memo.get(arg);
         } else {
-            const result = f(args[0], args[1]);
-            memo.set(args[1], result);
+            const result = f(arg);
+            memo.set(arg, result);
             return result;
         }
     };
 };
-
 const sum = (numbers) => {
     const sumAux = ([first, ...rest], acc) =>
         first === undefined ? acc : sumAux(rest, first + acc);
     return sumAux(numbers, 0);
 };
-
 const avg = (grades) => (grades.length === 0 ? 0 : sum(grades) / grades.length);
-
-const getStudent = (students, id) => students.find((student) => student.id === id);
-
-const getStudentAvg = (students, id) => avg(getStudentMemo(students, id).grades);
-
-const getStudentAvgMemo = memoize(getStudentAvg);
-const getStudentMemo = memoize(getStudent);
+const avgMemo = memoize(avg);
 
 const renderStudents = (students) =>
-    students.map((student) =>
-        $(`<li data-student-id=${student.id}>
-          <div>${student.first}</div>
-          <div>${student.last}</div>
+    Object.keys(students).map((key) =>
+        $(`<li data-student-id=${students[key].id}>
+          <div>${students[key].first}</div>
+          <div>${students[key].last}</div>
         </li>`).hover(onHoverHandler(students), () => $('#col2').empty()),
     );
 
-const renderDetailStudent = (students, studentId) => {
-    const student = getStudentMemo(students, studentId);
-    const studentAvg = getStudentAvgMemo(students, studentId);
-    return $(`
+const renderDetailStudent = (students, id) =>
+    $(`
         <div class="student-detail">
-          <div>First name : ${student.first}</div>
-          <div>Last name : ${student.last}</div>
-          <div>GPA : ${studentAvg.toFixed(1)}</div>
+          <div>First name : ${students[id].first}</div>
+          <div>Last name : ${students[id].last}</div>
+          <div>GPA : ${avgMemo(students[id].grades).toFixed(1)}</div>
         </div>`);
-};
 
 const onHoverHandler = (students) => (e) => {
     const listItem = $(e.target).closest('li');
@@ -52,7 +41,6 @@ const onHoverHandler = (students) => (e) => {
         $('#col2').append(renderDetailStudent(students, parseInt(studentId)));
     }
 };
-
 $(() => {
     getStudentsFakeApi().then((students) => {
         $('<ul />')

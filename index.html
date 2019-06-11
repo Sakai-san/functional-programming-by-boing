@@ -1,170 +1,170 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <meta name="author" content="" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <meta name="author" content="" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- link href="css/normalize.css" rel="stylesheet" / -->
-    <!-- link href="css/style.css" rel="stylesheet" / -->
-    <style>
-      * {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 0;
-        margin: 0;
-      }
-
-      html,
-      body {
-        height: calc(100% - 10px);
-        width: calc(100% - 4px);
-      }
-
-      .red-border {
-        border: 1px solid red;
-      }
-
-      body {
-        display: flex;
-      }
-
-      body > div {
-        flex: 1;
-        border: 1px solid green;
-      }
-
-      ul {
-        list-style: none;
-      }
-
-      li {
-        border: 1px solid orange;
-        padding: 20px;
-      }
-
-      #col1 {
-        overflow: auto;
-      }
-
-      #col2 {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .red {
-        color: orangered;
-      }
-      .green {
-        color: palegreen;
-      }
-
-      .student-detail {
-        color: blueviolet;
-        padding: 10px;
-        background-color: papayawhip;
-        animation: slide-up 0.4s ease;
-      }
-
-      @keyframes slide-up {
-        0% {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="col1"></div>
-    <div id="col2"></div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-      const getStudentsFakeApi = () =>
-        new Promise(resolve =>
-          resolve([
-            {
-              id: 1000,
-              first: "Thomas",
-              last: "Rubattel",
-              grades: [4, 2, 6, 6]
-            },
-            {
-              id: 1001,
-              first: "Simon",
-              last: "Mckenzie",
-              grades: [3.5, 4.5, 3.5]
-            },
-            {
-              id: 1002,
-              first: "Liam",
-              last: "Desmontet",
-              grades: [3, 5, 5.5, 4.5, 4]
-            },
-            {
-              id: 1003,
-              first: "Pascaline",
-              last: "Fassnacht",
-              grades: [2, 2.5, 3.5, 4, 4, 3]
-            },
-            {
-              id: 1004,
-              first: "Sigmund",
-              last: "Dortman",
-              grades: [4, 3, 4.5, 2.5, 3.5]
-            },
-            {
-              id: 1005,
-              first: "Stefany",
-              last: "Norberg",
-              grades: [4.5, 5, 4.5, 6, 5, 5, 6]
-            },
-            {
-              id: 1006,
-              first: "Dragan",
-              last: "Civic",
-              grades: [3, 4, 4, 3, 5, 3]
-            },
-            {
-              id: 1007,
-              first: "Catherine",
-              last: "Schmid",
-              grades: [3]
-            },
-            {
-              id: 1008,
-              first: "Vincenzo",
-              last: "Caliarri",
-              grades: [4, 5, 4, 6, 5, 5.5, 5, 3.5, 5]
-            },
-            {
-              id: 1009,
-              first: "Blumenthal",
-              last: "Elie",
-              grades: [4.5, 5, 5, 5, 6, 5, 5.5, 3.5]
-            },
-            {
-              id: 1010,
-              first: "Lee",
-              last: "Michelle",
-              grades: [4.5, 4, 4.5, 3, 3, 5, 5, 5, 6, 5, 5.5, 3.5]
-            },
-            {
-              id: 1011,
-              first: "Sergei",
-              last: "Lyapunov",
-              grades: [3, 3, 6, 2]
+        <!-- link href="css/normalize.css" rel="stylesheet" / -->
+        <!-- link href="css/style.css" rel="stylesheet" / -->
+        <style>
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 0;
+                margin: 0;
             }
-          ])
-        );
-    </script>
-    <script src="./src/js/app.js"></script>
-  </body>
+
+            html,
+            body {
+                height: calc(100% - 10px);
+                width: calc(100% - 4px);
+            }
+
+            .red-border {
+                border: 1px solid red;
+            }
+
+            body {
+                display: flex;
+            }
+
+            body > div {
+                flex: 1;
+                border: 1px solid green;
+            }
+
+            ul {
+                list-style: none;
+            }
+
+            li {
+                border: 1px solid orange;
+                padding: 20px;
+            }
+
+            #col1 {
+                overflow: auto;
+            }
+
+            #col2 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .red {
+                color: orangered;
+            }
+            .green {
+                color: palegreen;
+            }
+
+            .student-detail {
+                color: blueviolet;
+                padding: 10px;
+                background-color: papayawhip;
+                animation: slide-up 0.4s ease;
+            }
+
+            @keyframes slide-up {
+                0% {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                100% {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="col1"></div>
+        <div id="col2"></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            const getStudentsFakeApi = () =>
+                new Promise((resolve) =>
+                    resolve({
+                        1000: {
+                            id: 1000,
+                            first: 'Thomas',
+                            last: 'Rubattel',
+                            grades: [4, 2, 6, 6],
+                        },
+                        1001: {
+                            id: 1001,
+                            first: 'Simon',
+                            last: 'Mckenzie',
+                            grades: [3.5, 4.5, 3.5],
+                        },
+                        1002: {
+                            id: 1002,
+                            first: 'Liam',
+                            last: 'Desmontet',
+                            grades: [3, 5, 5.5, 4.5, 4],
+                        },
+                        1003: {
+                            id: 1003,
+                            first: 'Pascaline',
+                            last: 'Fassnacht',
+                            grades: [2, 2.5, 3.5, 4, 4, 3],
+                        },
+                        1004: {
+                            id: 1004,
+                            first: 'Sigmund',
+                            last: 'Dortman',
+                            grades: [4, 3, 4.5, 2.5, 3.5],
+                        },
+                        1005: {
+                            id: 1005,
+                            first: 'Stefany',
+                            last: 'Norberg',
+                            grades: [4.5, 5, 4.5, 6, 5, 5, 6],
+                        },
+                        1006: {
+                            id: 1006,
+                            first: 'Dragan',
+                            last: 'Civic',
+                            grades: [3, 4, 4, 3, 5, 3],
+                        },
+                        1007: {
+                            id: 1007,
+                            first: 'Catherine',
+                            last: 'Schmid',
+                            grades: [3],
+                        },
+                        1008: {
+                            id: 1008,
+                            first: 'Vincenzo',
+                            last: 'Caliarri',
+                            grades: [4, 5, 4, 6, 5, 5.5, 5, 3.5, 5],
+                        },
+                        1009: {
+                            id: 1009,
+                            first: 'Blumenthal',
+                            last: 'Elie',
+                            grades: [4.5, 5, 5, 5, 6, 5, 5.5, 3.5],
+                        },
+                        1010: {
+                            id: 1010,
+                            first: 'Lee',
+                            last: 'Michelle',
+                            grades: [4.5, 4, 4.5, 3, 3, 5, 5, 5, 6, 5, 5.5, 3.5],
+                        },
+                        1011: {
+                            id: 1011,
+                            first: 'Sergei',
+                            last: 'Lyapunov',
+                            grades: [3, 3, 6, 2],
+                        },
+                    }),
+                );
+        </script>
+        <script src="./src/js/app.js"></script>
+    </body>
 </html>
