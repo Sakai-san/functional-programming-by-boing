@@ -2,11 +2,15 @@
 
 ## Introduction
 
-I wrote a post a rather theoretical post on medium on functional programming concepts. The present post is more pragmatic in the sense that the whole code using functional programming principle of a little project is explamided.
+I contrast to a rather theoretical post I wrote previously on medium on functional programming, the present post is more pragmatic. Based on a very little project basic principles of functional programming are exposed.
 
 # Functional programming
 
-Bunch of function which are functional. Pass the necessary data to function. Make them as autonomous as possible.
+A functional programming progamm made of functions.
+
+# Callback
+
+Function passed to another function and called within the hosted function.
 
 # Recursion
 
@@ -34,4 +38,4 @@ Less code, easier to read, easier to test.
 
 # JavaScript and functional programming
 
-Functional programming is a style. So any language can be use. Of course some are more adjusted for that. JavaScript by support cloure and function as first class citizen is quite adaquete for functional programming.
+Functional programming is a style. Functional programming principle can be implemented in any language. Of course some languages are more adjusted for that. JavaScript by supporting cloure and function as first class citizen is quite adaquated for functional programming. But JavaScript does not support immutability by default.

@@ -27,8 +27,7 @@ const renderStudents = (students) =>
     );
 
 const renderDetailStudent = (students, id) =>
-    $(`
-        <div class="student-detail">
+    $(`<div class="student-detail">
           <div>First name : ${students[id].first}</div>
           <div>Last name : ${students[id].last}</div>
           <div>GPA : ${avgMemo(students[id].grades).toFixed(1)}</div>
@@ -41,6 +40,7 @@ const onHoverHandler = (students) => (e) => {
         $('#col2').append(renderDetailStudent(students, studentId));
     }
 };
+
 $(() => {
     getStudentsFakeApi().then((students) => {
         $('<ul />')
